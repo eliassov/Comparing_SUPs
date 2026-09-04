@@ -1,0 +1,18 @@
+Package: ComparingSUPs
+Title: Comparing Secondary Cell Suppression Methods
+Version: 0.1.0
+Authors@R: c(
+    person("Michel", "Moehler", email = "mamoeh@users.noreply.github.com", role = "aut"),
+    person("Øyvind", "Langsrud", email = "oyl@ssb.no", role = "aut"),
+    person("Elias", "S", email = "rgo@ssb.no", role = "cre")
+    )
+Description: An R package to practice generating microdata and hierarchies 
+    and comparing different secondary cell suppression methods (e.g., GAUSS, MODULAR).
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    SSBtools,
+    sdcHierarchies,
+    VGAM
+RoxygenNote: 7.2.3
