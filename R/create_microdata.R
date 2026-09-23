@@ -11,7 +11,21 @@ if (FALSE) {  # Example
 }
 
 
-# Generates microdata in a way that can be manipulated in some ways
+#' Generate Mock Microdata
+#'
+#' Generates mock microdata representing individual/transactional records with hierarchical dimensions and responses.
+#'
+#' @param hiers A list of hierarchy structures.
+#' @param n_ids Total number of observations (rows) to generate. Default is 1000.
+#' @param n_unique Number of unique dimension combinations to generate. Default is n_ids/10.
+#' @param shape Shape parameter for the Pareto Type II (Lomax) distribution of cell responses. Default is 1.1.
+#' @param prob_dim Probability vector for dimension levels.
+#' @param prob_freq Probability vector for generating cell frequencies.
+#' @param rnd_seed Random seed for cell response generation. Default is 123.
+#' @param sample_seed Random seed for sampling the combinations. Default is 123.
+#'
+#' @return A data frame containing the generated mock microdata.
+#' @export
 create_microdata <- function(hiers, n_ids =  1000, n_unique = n_ids/10, 
                              shape = 1.1, 
                              prob_dim = 1/seq_len(100000),
@@ -64,7 +78,17 @@ inner_ppercent <- function(df_microdata, include_freq = FALSE) {
   pp
 }
 
-# Another helper function
+#' Get Information About Microdata
+#'
+#' Computes and prints key metrics of the generated microdata, such as empty inner cells, singleton cells, and unsafe cells.
+#'
+#' @param df_microdata A data frame of generated microdata.
+#' @param hierarchies A list of hierarchies corresponding to the dimensions in the microdata.
+#' @param return_frame Logical; if TRUE, returns the underlying frequencies and p-percent values. Default is FALSE.
+#' @param pvalue The threshold for identifying unsafe cells based on the p-percent rule. Default is 5.
+#'
+#' @return Prints summary statistics. If `return_frame` is TRUE, returns a data frame with frequencies and p-percent values.
+#' @export
 info_microdata <- function(df_microdata, hierarchies, return_frame = FALSE, 
                            pvalue = 5) {
   n_inner_cells <- prod(sapply(prime_positions(hierarchies), length))

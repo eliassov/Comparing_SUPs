@@ -34,7 +34,7 @@ rpareto2 <- function(n, shape = 1.1, max_response = 10^9 - 1, cuttail = 1e-07) {
 #'   within the function without affecting the random value stream in R.
 #'
 #' @examples
-#' df <- SSBtoolsData("paris2025_micro")
+#' df <- SSBtools::SSBtoolsData("paris2025_micro")
 #' 
 #' add_response(df)
 #' 
@@ -42,6 +42,7 @@ rpareto2 <- function(n, shape = 1.1, max_response = 10^9 - 1, cuttail = 1e-07) {
 #' df |> add_response()
 #' df |> add_response() |> add_response(shape = 2, response = "r2")
 #' df |> add_response() |> add_response(rnd_seed = 44, response = "r44")
+#' @export
 add_response <- function(df, shape = 1.1, response = "response", rnd_seed = 123) {
   if (!is.null(rnd_seed)) {
     if (!exists(".Random.seed"))

@@ -1,8 +1,13 @@
-# To add analysis to the .rds file.
-#
-# Use output = "analysis" to return analysis instead  
-# 
-
+#' Add Comparison Analysis to SDC Object
+#'
+#' Compiles performance, risk, and utility comparative analysis metrics across the implemented suppression methods.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "analysis" to return the analysis list object instead of saving.
+#'
+#' @return Modifies the saved RDS file with structured analysis metrics, or returns an analysis list depending on the `output` parameter.
+#' @export
 add_analysis <- function(filename, 
                       path = "merged", 
                       output = NULL) {

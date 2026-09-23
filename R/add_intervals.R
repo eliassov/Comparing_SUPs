@@ -56,18 +56,20 @@ if (FALSE) {  # Example
 }
 
 
-# To add intervals results to the file
-# 
-# Intervals are computed for all methods that do not already have intervals, 
-# and the file is updated with new results and saved after each method. 
-# Use the multiple = FALSE if intervals should be computed for only a single method.
-#
-# Use output = "df_merged" to return a data frame instead (only one method)  
-# 
-# Use sample_size to calculate intervals only for a sample of primary suppressed cells
-#
-# Use lpPackage = "sdcTable" to calculate intervals via intervals_by_sdcTable()
-# 
+#' Add Safety Intervals to SDC Object
+#'
+#' Computes safety intervals (lower/upper bounds) for suppressed cells and adds them to a saved SDC object.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "df_merged" to return the merged data frame (applies only when `multiple = FALSE`).
+#' @param multiple Logical; if TRUE, computes intervals for all suppression methods that lack them. If FALSE, computes intervals for only a single method. Default is TRUE.
+#' @param lpPackage Character string; the LP solver package to use for calculations (e.g., "sdcTable"). Default is "sdcTable".
+#' @param sample_size Numeric; number of primary suppressed cells to sample and calculate intervals for. Use `Inf` to compute for all. Default is `Inf`.
+#' @param n_workers Integer; number of parallel workers/cores to use for calculations. Default is 1.
+#'
+#' @return Modifies the saved RDS file with safety interval results, or returns a data frame depending on the `output` parameter.
+#' @export
 add_intervals <- function(filename, 
                           path = "merged", 
                           output = NULL, 

@@ -21,9 +21,18 @@ if (FALSE) {  # Example
 }
 
 
-# Runs primary suppression and adds results from info_output(). 
-# Use do_check_sdcTable = TRUE to also check that 
-#       sdcTable::primarySuppression() gives the same result.
+#' Run and Check Primary Suppression
+#'
+#' Runs primary suppression on microdata and compares/adds results from info_output.
+#'
+#' @param df_microdata A data frame of generated microdata.
+#' @param hierarchies A list of hierarchies corresponding to the dimensions in the microdata.
+#' @param pvalue Numeric; threshold for identifying unsafe cells based on the p-percent rule. Default is 5.
+#' @param print_info Logical; if TRUE, prints summary statistics of the primary suppression. Default is TRUE.
+#' @param do_check_sdcTable Logical; if TRUE, cross-checks results against `sdcTable::primarySuppression`. Default is FALSE.
+#'
+#' @return A list containing the processed SDC list object with primary suppression results, and optionally sdcTable verification metrics.
+#' @export
 check_primary <- function(df_microdata, hierarchies, 
                           pvalue = 5, 
                           print_info = TRUE,
@@ -63,6 +72,17 @@ info_output <- function(df_merged, hierarchies, as_char = TRUE) {
 }
 
 
+#' Compare Primary Suppression with sdcTable
+#'
+#' Runs primary suppression using `sdcTable::primarySuppression` to verify that the results match the package's precomputed primary suppressions.
+#'
+#' @param df_merged A data frame containing the precomputed merged/suppressed data.
+#' @param df_microdata A data frame of generated microdata.
+#' @param hierarchies A list of hierarchies corresponding to the dimensions in the microdata.
+#' @param pvalue Numeric; threshold for identifying unsafe cells. Default is 5.
+#'
+#' @return A list with the output data frame from sdcTable, a logical vector of its primary suppressions, and an equality check result.
+#' @export
 check_sdcTable <- function(df_merged, df_microdata, hierarchies, pvalue = 5) {
   
   

@@ -12,10 +12,17 @@ if (FALSE) {  # Example
   head(all$df_merged)
 }
 
-# To add suppressed_gauss to the file using precomputed primary_gauss.
-#
-# Use output = "df_merged" to return a data frame instead  
-# 
+#' Add GAUSS Suppression to SDC Object
+#'
+#' Runs secondary cell suppression using the GAUSS method (via the `GaussSuppression` package)
+#' on a saved SDC object and adds the results.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "df_merged" to return the merged data frame instead of saving.
+#'
+#' @return Modifies the saved RDS file with GAUSS suppression results, or returns a data frame depending on the `output` parameter.
+#' @export
 add_gauss <- function(filename, 
                       path = "merged", 
                       output = NULL) {

@@ -21,6 +21,17 @@ if (FALSE) {  # Example
 
 
 
+#' Recreate Microdata from Benchmark Case Filename
+#'
+#' Recreates the exact simulated microdata for a specific benchmark test case
+#' (e.g., "oyl_1a", "oyl_26d") by looking up its original configuration settings
+#' and structural hierarchies.
+#'
+#' @param filename A single, non-missing character string representing the benchmark
+#'   case identifier (e.g., "oyl_26d").
+#'
+#' @return A data frame containing the generated mock microdata for the specified benchmark case.
+#' @export
 create_microdata_from_filename <- function(filename) {
   if (!is.character(filename) || length(filename) != 1L || is.na(filename)) {
     stop("filename must be a single non-missing character string.", call. = FALSE)

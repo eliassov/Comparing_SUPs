@@ -14,5 +14,12 @@ LazyData: true
 Imports:
     SSBtools,
     sdcHierarchies,
-    VGAM
-RoxygenNote: 7.2.3
+    VGAM,
+    GaussSuppression,
+    sdcTable,
+    data.table,
+    rlang,
+    dplyr,
+    rtauargus,
+    tidyselect
+Config/roxygen2/version: 8.1.0

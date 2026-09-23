@@ -3,15 +3,16 @@
 #'
 #' @param output Data frame. Output from a suppression function.   
 #' @param hierarchies List of data frames as dimList in sdcTable
+#' @param include_HiTaS_Class Logical; whether to include the HiTaS classification. Default is TRUE.
 #'
 #' @export
 #'
 #' @examples
 #' 
-#' d3 <- SSBtoolsData("d3")
+#' d3 <- SSBtools::SSBtoolsData("d3")
 #' d3$value <- (d3$freq + pi)^2
 #' hi <- SSBtools::FindDimLists(d3[c(1:2, 4:6)])
-#' a <- SuppressDominantCells(d3, 
+#' a <- GaussSuppression::SuppressDominantCells(d3, 
 #'                            dominanceVar = "value", 
 #'                            hierarchies = hi, 
 #'                            pPercent = pi, 

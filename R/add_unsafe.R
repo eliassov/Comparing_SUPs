@@ -25,16 +25,17 @@ if (FALSE) {  # Example
 }
 
 
-# To add unsafe results to the file
-# unsafe here means exact disclosure due to linear dependence calculated with Gauss
-# The corresponding intervals will have length 0, but interval calculations are not needed
-# Use the multiple = FALSE if unsafe should be computed for only a single method.
-#
-# Use output = "df_merged" to return a data frame instead (only one method)  
-#
-#  NOTE: Hack on lines 84,88
-# 
-# 
+#' Add Unsafe Secondary Suppressions to SDC Object
+#'
+#' Identifies "unsafe" secondary suppressions (cells that can be exactly disclosed via linear dependencies) and adds unsafe indicators.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "df_merged" to return the merged data frame (applies only when `multiple = FALSE`).
+#' @param multiple Logical; if TRUE, computes unsafe indicators for all suppression methods that lack them. If FALSE, computes for only a single method. Default is TRUE.
+#'
+#' @return Modifies the saved RDS file with unsafe suppression results, or returns a data frame depending on the `output` parameter.
+#' @export
 add_unsafe <- function(filename, 
                           path = "merged", 
                           output = NULL, 

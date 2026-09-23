@@ -1,12 +1,18 @@
 
 
 
-read_hier <- function(hier_name, path = "data") {
+read_hier <- function(hier_name, path = NULL) {
+  if (is.null(path)) {
+    path <- system.file("extdata", package = "ComparingSUPs")
+    if (path == "") {
+      path <- "inst/extdata"
+    }
+  }
   readRDS(paste0(path, "/", hier_name, ".rds"))
 }
 
 
-save_hier <- function(hier_name, path = "data") {
+save_hier <- function(hier_name, path = "inst/extdata") {
   hier <- get(hier_name)
   hier <- hier_as_df(hier)
   saveRDS(hier, paste0(path, "/", hier_name, ".rds"), compress = "xz")
@@ -30,7 +36,7 @@ hier_as_df <- function(hier) {
     hier <- SSBtools::Hrc2DimList(hier)
   }
   if (!inherits(hier, "sdc_hierarchy")) {
-    hier <- hier_import(hier, from = "df")
+    hier <- sdcHierarchies::hier_import(hier, from = "df")
   }
   sdcHierarchies::hier_convert(hier, as = "df")
 }

@@ -10,9 +10,20 @@ if (FALSE) {  # Example
 }
 
 
-# Function to initialize df_merged and to store a list with df_merged, df_microdata and hierarchies
-# Use output = "all" to return the list 
-# Use output = "df_merged" to return a data frame instead 
+#' Initialize GAUSS Suppression Object
+#'
+#' Initializes the SDC object and computes the primary suppressions using the GAUSS method (without secondary suppressions).
+#'
+#' @param filename Character string; name of the file (excluding extension) to save the SDC list object under.
+#' @param df_microdata A data frame of generated microdata.
+#' @param hierarchies A list of hierarchies corresponding to the dimensions in the microdata.
+#' @param path Character string; directory where the RDS file should be saved. Default is "merged".
+#' @param overwrite Logical; if TRUE, overwrites any existing RDS file with the same name. Default is FALSE.
+#' @param pvalue Numeric; threshold for identifying unsafe cells. Default is 5.
+#' @param output Character string specifying the output format, or NULL. Use "all" to return the complete SDC list, or "df_merged" to return the merged data frame.
+#'
+#' @return Modifies or creates the RDS file with initial primary suppressions, or returns the specified object depending on the `output` parameter.
+#' @export
 initialize_gauss <- function(filename, df_microdata, hierarchies, path = "merged", 
                              overwrite = FALSE,  
                              pvalue = 5, output = NULL) {

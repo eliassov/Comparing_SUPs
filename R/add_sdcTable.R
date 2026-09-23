@@ -12,15 +12,21 @@ if (FALSE) {  # Example
 }
 
 
-# to add sdcTable results to the file
-# Use parameter method to chose sdcTable method
-# Use parameter output to return a data frame instead  
-#      output = "out_simple" or output = "df_merged" 
-# Use output = "prob.microDat" or output = "resSIMPLE" to return sdcTable objects 
-# Use time_limit to set time limit in seconds. Default is 3600. 
-#      Use Inf to avoid time limit. See code below. 
-# Use fatal_error = TRUE to manually add error info to output 
-#     to avoid running the same analysis again 
+#' Add sdcTable Suppression to SDC Object
+#'
+#' Runs secondary cell suppression using the `sdcTable` package on a saved SDC object and adds the results.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "out_simple", "df_merged", "prob.microDat", or "resSIMPLE" to return objects instead of saving.
+#' @param method Character string; the secondary suppression method to use (e.g., "SIMPLEHEURISTIC"). Default is "SIMPLEHEURISTIC".
+#' @param pvalue Numeric; threshold for identifying unsafe cells if not using external primary suppressions. Default is 5.
+#' @param use_external_primary Logical; if TRUE, uses existing primary suppressions from the precomputed "primary_gauss" column in `df_merged`. Default is TRUE.
+#' @param time_limit Numeric; time limit in seconds for the solver. Default is 3600.
+#' @param fatal_error Logical; if TRUE, manually registers a fatal error status to avoid re-running failing configurations. Default is FALSE.
+#'
+#' @return Modifies the saved RDS file with sdcTable suppression results, or returns a specific object depending on the `output` parameter.
+#' @export
 add_sdcTable <- function(filename, path = "merged", output = NULL, 
                          method = "SIMPLEHEURISTIC", pvalue = 5,
                          use_external_primary = TRUE,

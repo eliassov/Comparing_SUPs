@@ -9,10 +9,18 @@ if (FALSE) {  # Example
 }
 
 
-# to add modular results to the file 
-# Use parameter output to return a data frame instead  
-#      output = "out_tau" or output = "df_merged" 
-# split_tab is parameter to rtauargus::tab_rtauargus()
+#' Add Modular Suppression to SDC Object
+#'
+#' Runs the MODULAR (Tau-Argus) secondary cell suppression method on a saved SDC object and adds the results.
+#'
+#' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
+#' @param path Character string; directory where the RDS file is stored. Default is "merged".
+#' @param output Character string specifying the output format, or NULL. Use "out_tau" or "df_merged" to return data frames instead of saving.
+#' @param split_tab Logical; parameter passed to `rtauargus::tab_rtauargus()`. Default is FALSE.
+#' @param add_HiTaS_log_time Logical; whether to parse and include the Tau-Argus log-reported time. Default is TRUE.
+#'
+#' @return Modifies the saved RDS file with MODULAR suppression results, or returns a data frame depending on the `output` parameter.
+#' @export
 add_modular <- function(filename, path = "merged", output = NULL, split_tab = FALSE,
                         add_HiTaS_log_time = TRUE) {
   
@@ -76,7 +84,7 @@ add_modular <- function(filename, path = "merged", output = NULL, split_tab = FA
   
   if (ok) { 
     out_tau <- ex1 |> 
-      dplyr::select(starts_with("var"),response,Status) |> 
+      dplyr::select(tidyselect::starts_with("var"),response,Status) |> 
       dplyr::mutate(Status = dplyr::recode(Status,
                                            "V" = 2,
                                            "A" = 9,
@@ -181,7 +189,7 @@ prepare_tauargus_inputs <- function(
   
   ## 1. Input-Tabelle vorbereiten
   tab_modular_input <- tab_modular_input  |>
-    dplyr::select(starts_with("var"), response, n_contr, primary) |>
+    dplyr::select(tidyselect::starts_with("var"), response, n_contr, primary) |> 
     dplyr::mutate(no_pl = primary) |>   # primaries ohne Schutzlevel
     dplyr::filter(response > 0)
   
