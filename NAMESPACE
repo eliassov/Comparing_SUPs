@@ -14,6 +14,7 @@ export(create_microdata)
 export(create_microdata_from_filename)
 export(info_microdata)
 export(initialize_gauss)
+export(rpareto2)
 importFrom(stats,
   runif,
   setNames

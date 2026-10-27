@@ -12,6 +12,7 @@
 #' @examples
 #' rpareto2(5)
 #' rpareto2(5, shape = 2)
+#' @export
 rpareto2 <- function(n, shape = 1.1, max_response = 10^9 - 1, cuttail = 1e-07) {
   x <- VGAM::rparetoII(n, shape = shape)
   tailcut <- VGAM::qparetoII(1 - cuttail, shape = shape)

@@ -8,7 +8,7 @@ Authors@R: c(
     )
 Description: An R package to practice generating microdata and hierarchies 
     and comparing different secondary cell suppression methods (e.g., GAUSS, MODULAR).
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
@@ -22,4 +22,4 @@ Imports:
     dplyr,
     rtauargus,
     tidyselect
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
