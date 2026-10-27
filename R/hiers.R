@@ -1,6 +1,15 @@
 
 
 
+#' Read Packaged Hierarchy
+#'
+#' Reads a pre-packaged hierarchy RDS file from the package's internal data directory.
+#'
+#' @param hier_name Character string; name of the hierarchy file (excluding `.rds`).
+#' @param path Character string specifying a custom directory path. Default is NULL (loads from package internal storage).
+#'
+#' @return A data frame representing the hierarchy.
+#' @export
 read_hier <- function(hier_name, path = NULL) {
   if (is.null(path)) {
     path <- system.file("extdata", package = "ComparingSUPs")
@@ -19,8 +28,15 @@ save_hier <- function(hier_name, path = "inst/extdata") {
 }
 
 
-# Function to generate a simple hierarchy with only a Total 
-# in addition to the input codes.
+#' Create Simple Hierarchy
+#'
+#' Generates a simple hierarchy structure with a "TOTAL" root node and `n` children codes.
+#'
+#' @param n Integer; number of children codes to generate under the root. Default is 2.
+#' @param code_name Character string; base name for the generated codes. Default is "A".
+#'
+#' @return A data frame representing the simple hierarchy.
+#' @export
 simple_hier <- function(n = 2, code_name = "A") {
   hier <- data.frame(level = rep("@@", n + 1), 
                      name = paste0(code_name, SSBtools::Number(0:n)))

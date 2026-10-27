@@ -1,0 +1,15 @@
+* using log directory ‘/home/onyxia/work/Comparing_SUPs/..Rcheck’
+* using R version 4.6.0 (2026-04-24)
+* using platform: x86_64-pc-linux-gnu
+* R was compiled by
+    gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+    GNU Fortran (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+* running under: Ubuntu 26.04.1 LTS
+* using session charset: UTF-8
+* current time: 2026-10-27 13:00:01 UTC
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘./DESCRIPTION’ ... ERROR
+Required fields missing or empty:
+  ‘Author’ ‘Maintainer’
+* DONE
+Status: 1 ERROR

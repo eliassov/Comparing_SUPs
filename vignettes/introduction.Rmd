@@ -1,0 +1,152 @@
+---
+title: "Introduction to ComparingSUPs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to ComparingSUPs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ComparingSUPs)
+```
+
+## Introduction
+
+`ComparingSUPs` is an R package designed for statisticians and SDC (Statistical Disclosure Control) experts to simulate realistic microdata and hierarchically structured dimensions, apply secondary cell suppression algorithms, and compare the outcomes. 
+
+Specifically, this package allows you to compare:
+- **GAUSS** secondary cell suppression (via the `GaussSuppression` package)
+- **MODULAR/HiTaS** secondary cell suppression (via `sdcTable` / `rtauargus`)
+- Simple heuristics and other customized cell suppression schemes
+
+This vignette walks you through the entire end-to-end workflow: from generating synthetic hierarchies and microdata, through executing cell suppressions, to conducting a comparative analysis of data utility, protection, and runtime.
+
+---
+
+## Step-by-step Workflow
+
+### 1. Generating Hierarchies and Mock Microdata
+
+First, we define or load structural hierarchies representing standard dimensions (e.g. region, industry/NACE classification, table headers). `ComparingSUPs` provides bundled benchmark hierarchies and helper functions to load them.
+
+In this example, we load a minimal hierarchy and a simple table header hierarchy:
+
+```{r data-generation}
+# Load pre-packaged hierarchies
+hiers <- list(
+  var1 = read_hier("minimal"),
+  var2 = read_hier("table_header")
+)
+
+# Generate mock transactional microdata based on these hierarchies
+# This generates n_ids observations and groups them into n_unique combinations
+microdata <- create_microdata(hiers, n_ids = 100, n_unique = 20, rnd_seed = 42)
+
+head(microdata)
+```
+
+---
+
+### 2. Generating a Numeric Response Variable
+
+We append a Pareto Type II (Lomax) whole nonzero random response variable to the microdata using `add_response()`. This distribution represents highly skewed, realistic financial or economic data where a few large contributors dominate cells.
+
+```{r add-response}
+# Add response variable
+microdata_with_response <- add_response(microdata, shape = 1.1)
+
+head(microdata_with_response)
+```
+
+---
+
+### 3. Pipeline Initialization & Primary Cell Suppression
+
+We initialize our pipeline using the file-backed system of `ComparingSUPs`. This calculates the primary cell suppressions under a $p\%$ dominance rule (here using a threshold of $5\%$) and saves the initial SDC object as an `.rds` file inside a `merged/` directory.
+
+We can return the result object directly using `output = "all"` or let it save to disk:
+
+```{r initialize-pipeline}
+# Create the directory for file-backed storage if it does not exist
+dir.create("merged", showWarnings = FALSE)
+
+# Initialize pipeline and calculate primary cell suppressions
+initialize_gauss(
+  filename = "vignette_test", 
+  df_microdata = microdata_with_response, 
+  hierarchies = hiers, 
+  overwrite = TRUE,
+  pvalue = 5
+)
+
+# Read the initialized file back to inspect the starting structure
+sdc_obj <- readRDS("merged/vignette_test.rds")
+names(sdc_obj)
+head(sdc_obj$df_merged)
+```
+
+---
+
+### 4. Running Secondary Cell Suppressions
+
+Once the pipeline is initialized with primary suppressions, we apply different SDC secondary suppression algorithms to the same file. Each run appends its findings into the saved `.rds` file.
+
+#### A. Running the GAUSS Algorithm
+The **GAUSS** method is applied via `GaussSuppression::SuppressDominantCells()`:
+
+```{r run-gauss}
+# Run GAUSS and append results to the saved object
+add_gauss("vignette_test")
+```
+
+#### B. Running the MODULAR Algorithm (Optional / Tau-Argus)
+The **MODULAR** algorithm utilizes `rtauargus`/`sdcTable`. To execute this step, ensure that the path to your `TauArgus` executable is correctly configured in your R session options (`options(rtauargus.tauargus_exe = ...)`). 
+
+For the purposes of this guide, if a TauArgus executable is not active, we can skip or run it safely:
+
+```r
+# Run MODULAR secondary cell suppression
+add_modular("vignette_test")
+```
+
+---
+
+### 5. Computing Suppression Intervals & Unsafe Status
+
+For a robust security assessment, we can compute interval bounds to evaluate how tightly suppressed values can be reconstructed from the published margins. We can also flag unsafe cells that do not satisfy our protection goals.
+
+```r
+# Add upper/lower bounds of intervals around suppressed values
+add_intervals("vignette_test")
+
+# Flag unsafe primary cells where the protection intervals are too narrow
+add_unsafe("vignette_test")
+```
+
+---
+
+### 6. Compiling Comparative Analysis
+
+Finally, we aggregate comparative statistics across our runs (runtime, total cell value suppressed, hierarchical damage, and protectedness) into a single analysis object:
+
+```r
+# Compile comparative metrics
+analysis_results <- add_analysis("vignette_test", output = "analysis")
+
+# Print compiled SDC comparison summary
+print(analysis_results)
+```
+
+---
+
+## Conclusion
+
+This file-backed pipeline architecture of `ComparingSUPs` ensures a highly structured and auditable workflow for comparing secondary cell suppression schemes. Using this package, you can run rigorous evaluations on large benchmark suites (such as the pre-configured `OYL_TABLES` dataset) to find the most optimal balance between data utility and disclosure risk.

@@ -14,7 +14,9 @@ export(create_microdata)
 export(create_microdata_from_filename)
 export(info_microdata)
 export(initialize_gauss)
+export(read_hier)
 export(rpareto2)
+export(simple_hier)
 importFrom(stats,
   runif,
   setNames
