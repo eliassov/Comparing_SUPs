@@ -2,7 +2,7 @@ Package: ComparingSUPs
 Title: Comparing Secondary Cell Suppression Methods
 Version: 0.1.0
 Authors@R: c(
-    person("Michel", "Reiffert", email = "michell233@users.noreply.github.com", role = "aut"),
+    person("Michel", "Reiffert", email = "michell233@users.noreply.github.com", role = c("aut", "cre")),
     person("Øyvind", "Langsrud", email = "oyl@ssb.no", role = "aut"),
     person("Martin", "Möhler", email = "mamoeh@users.noreply.github.com", role = "aut")
     )

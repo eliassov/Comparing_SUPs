@@ -41,17 +41,17 @@ build_hierarchy <- function(spec, root = "TOTAL") {
 #
 #create hrc`s from file and modify
 #large regional hrc
-region <- readLines("region_large.hrc")
+region <- readLines("data-raw/region_large.hrc")
 region_large <- SSBtools::Hrc2DimList(region)
 #medium size regional hrc (less entries but deeper)
-region_mid <- readLines("region.hrc")
+region_mid <- readLines("data-raw/region.hrc")
 region_mid <- SSBtools::Hrc2DimList(region_mid)
 
 #nace hrc
-nace_5 <- readLines("nace_5.hrc")
+nace_5 <- readLines("data-raw/nace_5.hrc")
 nace_5 <- SSBtools::Hrc2DimList(nace_5)
 #
-nace <- readLines("nace.hrc")
+nace <- readLines("data-raw/nace.hrc")
 nace_3 <- SSBtools::Hrc2DimList(nace)
 #nace medium hrc (delete all the deepest levels)
 nace_2 <- nace_3 %>% 

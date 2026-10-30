@@ -64,9 +64,9 @@ Here are the main functions provided by the package:
 
 ## Running Benchmarks Interactively
 
-If you are exploring the repository itself, you can find active benchmarking scripts at the root directory:
-* `microdata.R` – Synthesizes benchmark datasets.
-* `run_GAUSS.R` – Benchmarks the GAUSS cell suppression runtime and outputs.
-* `analysis.R` – Merges outcomes and compares the different algorithms.
+If you are exploring the repository itself, the interactive benchmarking and analysis scripts have been moved to the `analysis/` folder to keep a clean R package structure:
+* `analysis/microdata.R` – Synthesizes benchmark datasets.
+* `analysis/run_GAUSS.R` – Benchmarks the GAUSS cell suppression runtime and outputs.
+* `analysis/analysis.R` – Merges outcomes and compares the different algorithms.
 
-To run these scripts, open `Comparing_SUPs.Rproj` in RStudio, load all package functions with `devtools::load_all()` (or `Ctrl+Shift+L`), and run the scripts interactively.
+To run these scripts, open `Comparing_SUPs.Rproj` in RStudio, load all package functions with `devtools::load_all()` (or `Ctrl+Shift+L`), and run the scripts interactively from the `analysis/` directory.
