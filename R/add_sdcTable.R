@@ -22,7 +22,7 @@ if (FALSE) {  # Example
 #' @param method Character string; the secondary suppression method to use (e.g., "SIMPLEHEURISTIC"). Default is "SIMPLEHEURISTIC".
 #' @param pvalue Numeric; threshold for identifying unsafe cells if not using external primary suppressions. Default is 5.
 #' @param use_external_primary Logical; if TRUE, uses existing primary suppressions from the precomputed "primary_gauss" column in `df_merged`. Default is TRUE.
-#' @param time_limit Numeric; time limit in seconds for the solver. Default is 3600.
+#' @param time_limit Numeric; time limit in seconds for the solver. Default is 3600. Use `Inf` to disable/avoid the time limit.
 #' @param fatal_error Logical; if TRUE, manually registers a fatal error status to avoid re-running failing configurations. Default is FALSE.
 #'
 #' @return Modifies the saved RDS file with sdcTable suppression results, or returns a specific object depending on the `output` parameter.

@@ -59,6 +59,8 @@ if (FALSE) {  # Example
 #' Add Safety Intervals to SDC Object
 #'
 #' Computes safety intervals (lower/upper bounds) for suppressed cells and adds them to a saved SDC object.
+#' Intervals are computed for all methods that do not already have intervals, and the file is updated with new results and saved after each method.
+#'
 #'
 #' @param filename Character string; name of the file (excluding extension) containing the saved RDS object.
 #' @param path Character string; directory where the RDS file is stored. Default is "merged".

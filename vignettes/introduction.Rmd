@@ -24,7 +24,7 @@ library(ComparingSUPs)
 
 Specifically, this package allows you to compare:
 - **GAUSS** secondary cell suppression (via the `GaussSuppression` package)
-- **MODULAR/HiTaS** secondary cell suppression (via `sdcTable` / `rtauargus`)
+- **MODULAR/HiTaS** secondary cell suppression (via the standalone Tau-Argus executable via `rtauargus`, or natively in R via `sdcTable`)
 - Simple heuristics and other customized cell suppression schemes
 
 This vignette walks you through the entire end-to-end workflow: from generating synthetic hierarchies and microdata, through executing cell suppressions, to conducting a comparative analysis of data utility, protection, and runtime.
@@ -107,10 +107,15 @@ The **GAUSS** method is applied via `GaussSuppression::SuppressDominantCells()`:
 add_gauss("vignette_test")
 ```
 
-#### B. Running the MODULAR Algorithm (Optional / Tau-Argus)
-The **MODULAR** algorithm utilizes `rtauargus`/`sdcTable`. To execute this step, ensure that the path to your `TauArgus` executable is correctly configured in your R session options (`options(rtauargus.tauargus_exe = ...)`). 
+#### B. Running the MODULAR Algorithm (Tau-Argus via `rtauargus`)
+The **MODULAR** algorithm is executed through `add_modular()`, which wraps the standalone `TauArgus` software via `rtauargus`. To run this step, ensure that the path to your `TauArgus` executable is correctly configured in your R session options (e.g., `options(rtauargus.tauargus_exe = "path/to/TauArgus.exe")`).
 
-For the purposes of this guide, if a TauArgus executable is not active, we can skip or run it safely:
+Alternatively, you can run other traditional SDC algorithms natively in R without external software by using `add_sdcTable()`, which interfaces with the `sdcTable` package:
+
+```r
+# Run sdcTable secondary cell suppression
+add_sdcTable("vignette_test", method = "SIMPLEHEURISTIC")
+```
 
 ```r
 # Run MODULAR secondary cell suppression
