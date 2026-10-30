@@ -10,7 +10,7 @@ You can install the development version of `ComparingSUPs` directly from GitHub 
 
 ```R
 # install.packages("remotes")
-remotes::install_github("eliassov/Comparing_SUPs", ref = "dev2_oyl")
+remotes::install_github("michell233/Comparing_SUPs", ref = "dev2_oyl")
 ```
 
 ---
