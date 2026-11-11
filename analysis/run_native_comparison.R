@@ -20,6 +20,7 @@ hiers <- list(
   var1 = read_hier("minimal", path = file.path(project_dir, "inst/extdata")),
   var2 = read_hier("table_header", path = file.path(project_dir, "inst/extdata"))
 )
+hiers <- lapply(hiers, remove_bogus)
 
 # 3. Generate mock transactional microdata and whole random response variable
 cat("\n--- [1/6] Generating mock data ---\n")

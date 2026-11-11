@@ -4,7 +4,7 @@ libTauHiTaS version is 4.3.1.1
 Using SCIP
 Using open-source LP back-end (HiGHS)
 
-Start at 15:15:49, november 11, 2026
+Start at 15:37:25, november 11, 2026
 -------------------------------------------------------------------------------
 
 Modular started
@@ -40,4 +40,4 @@ APRIORI  :             0
 DISTANCE :             0
 LINKED   :             0
 Number of BackTrackings: 0
-Totaltime:       0.01 seconds, with       0.01 seconds JJ-code (= 89.30%)
+Totaltime:       0.01 seconds, with       0.01 seconds JJ-code (= 89.53%)

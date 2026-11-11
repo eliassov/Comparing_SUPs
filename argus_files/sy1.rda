@@ -5,9 +5,6 @@
 var1
   <RECODEABLE>
   <TOTCODE> "T"
-  <HIERARCHICAL>
-  <HIERCODELIST> "/home/onyxia/work/Comparing_SUPs/hier1_df_unif.hrc"
-  <HIERLEADSTRING> "@"
 var2
   <RECODEABLE>
   <TOTCODE> "T"

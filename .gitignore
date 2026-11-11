@@ -15,3 +15,14 @@
 
 # RStudio files
 .Rproj.user/
+
+# SDC / Tau-Argus temporary and output files
+argus_files/
+merged/
+*.hrc
+*.dat
+*.sta
+*.bra
+*.heu
+HiTaS.log
+CSPlogfile.txt
