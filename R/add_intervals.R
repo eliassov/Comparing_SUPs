@@ -26,6 +26,7 @@ if (FALSE) {  # Example
   add_gauss(filename, path = path)
   add_sdcTable(filename, method = "SIMPLEHEURISTIC_OLD", path = path)
   add_sdcTable(filename, path = path)
+  add_modular_native(filename, path = path)
   add_modular(filename, path = path)
   add_intervals(filename, multiple = FALSE, path = path)   # only intervals for one method 
   head(readRDS(file.path(path, paste0(filename, ".rds")))$df_merged, 10)
@@ -39,6 +40,7 @@ if (FALSE) {  # Example
   add_gauss(filename, path = path)
   add_sdcTable(filename, method = "SIMPLEHEURISTIC_OLD", path = path)
   add_sdcTable(filename, path = path)
+  add_modular_native(filename, path = path)
   add_modular(filename, path = path)
   add_intervals(filename, path = path, multiple = FALSE, sample_size = 2) 
   add_intervals(filename, path = path, multiple = FALSE, sample_size = 5)

@@ -32,6 +32,9 @@ add_analysis <- function(filename,
   #MODULAR
   secondary_modular <- result |>
     dplyr::filter(suppressed_modular=="TRUE" & primary_modular=="FALSE")
+  #MODULAR_NATIVE
+  secondary_modular_native <- result |>
+    dplyr::filter(suppressed_modular_native=="TRUE" & primary_modular_native=="FALSE")
   #Simpleheuristic
   secondary_simple <- result |> 
     dplyr::filter(suppressed_simpleheuristic=="TRUE" & primary_simpleheuristic=="FALSE")
@@ -41,33 +44,39 @@ add_analysis <- function(filename,
   #Number of secondaries per method
   secondaries_gauss <- nrow(secondary_gauss)
   secondaries_modular <- nrow(secondary_modular)
+  secondaries_modular_native <- nrow(secondary_modular_native)
   secondaries_simple <- nrow(secondary_simple)
   secondaries_simple_old <- nrow(secondary_simple_old)
   #add to list
   analysis["no_secondaries"] <- list(c(secondaries_gauss,
                                                    secondaries_modular,
+                                                   secondaries_modular_native,
                                                    secondaries_simple,
                                                    secondaries_simple_old))
   
   #(absolute) suppressed response value for each method:
   value_surpressed_gauss <- sum(secondary_gauss$response)
   value_surpressed_modular <- sum(secondary_modular$response)
+  value_surpressed_modular_native <- sum(secondary_modular_native$response)
   value_surpressed_simple <- sum(secondary_simple$response)
   value_surpressed_simple_old <- sum(secondary_simple_old$response)
   #add to list
   analysis["absolute_value"] <- list(c(value_surpressed_gauss,
                                         value_surpressed_modular,
+                                        value_surpressed_modular_native,
                                         value_surpressed_simple,
                                         value_surpressed_simple_old))
   #(relative to response of all cells) suppressed response value for each method:
   rel_value_surpressed_gauss <- sum(secondary_gauss$response)/sum(result$response)
   rel_value_surpressed_modular <- sum(secondary_modular$response)/sum(result$response)
+  rel_value_surpressed_modular_native <- sum(secondary_modular_native$response)/sum(result$response)
   rel_value_surpressed_simple <- sum(secondary_simple$response)/sum(result$response)
   rel_value_surpressed_simple_old <- sum(secondary_simple_old$response)/sum(result$response)
   
   #add to list
   analysis["relative_value"] <- list(c(rel_value_surpressed_gauss,
                                        rel_value_surpressed_modular,
+                                       rel_value_surpressed_modular_native,
                                        rel_value_surpressed_simple,
                                        rel_value_surpressed_simple_old))
   
@@ -75,11 +84,13 @@ add_analysis <- function(filename,
   #suppressed importance relative to response of all cells
   importance_value_suppressed_gauss <- sum(secondary_gauss$importance_score)
   importance_value_suppressed_modular <- sum(secondary_modular$importance_score)
+  importance_value_suppressed_modular_native <- sum(secondary_modular_native$importance_score)
   importance_value_suppressed_simple <- sum(secondary_simple$importance_score)
   importance_value_suppressed_simple_old <- sum(secondary_simple_old$importance_score)
   
   analysis["importance_value_surpressed"]<- list(c(importance_value_suppressed_gauss,
                                                    importance_value_suppressed_modular,
+                                                   importance_value_suppressed_modular_native,
                                                    importance_value_suppressed_simple,
                                                    importance_value_suppressed_simple_old))
   
@@ -97,6 +108,11 @@ add_analysis <- function(filename,
     dplyr::filter(lomax_response > lo_modular & upmin_response < up_modular)
   #in percent
   Protectedness_modular_percent <- (nrow(Protectedness_modular)/ sum(!is.na(result$lo_modular))) *100
+  #MODULAR_NATIVE
+  Protectedness_modular_native <- result |>
+    dplyr::filter(lomax_response > lo_modular_native & upmin_response < up_modular_native)
+  #in percent
+  Protectedness_modular_native_percent <- (nrow(Protectedness_modular_native)/ sum(!is.na(result$lo_modular_native))) *100
   #simple
   Protectedness_simple <- result |>
     dplyr::filter(lomax_response > lo_simpleheuristic & upmin_response < up_simpleheuristic)
@@ -110,6 +126,7 @@ add_analysis <- function(filename,
   #add to list
   analysis["Protectedness"] <- list(c(Protectedness_gauss_percent,
                                        Protectedness_modular_percent,
+                                       Protectedness_modular_native_percent,
                                        Protectedness_simple_percent,
                                        Protectedness_simple_old_percent))
   
@@ -154,6 +171,10 @@ add_analysis <- function(filename,
   Class_modular <- result|> 
     dplyr::filter(primary_modular ==F & suppressed_modular ==T) |> 
     dplyr::count(HiTaS_Class, name = "n_modular")
+  #For Modular Native
+  Class_modular_native <- result|> 
+    dplyr::filter(primary_modular_native ==F & suppressed_modular_native ==T) |> 
+    dplyr::count(HiTaS_Class, name = "n_modular_native")
   #For Simple
   Class_simple <- result|> 
     dplyr::filter(primary_simpleheuristic ==F & suppressed_simpleheuristic ==T) |> 
@@ -163,7 +184,7 @@ add_analysis <- function(filename,
     dplyr::filter(primary_simpleheuristic_old ==F & suppressed_simpleheuristic_old ==T) |> 
     dplyr::count(HiTaS_Class, name = "n_simple_old")
   #for comparing the two
-  Classes_table <- dplyr::full_join(dplyr::full_join(dplyr::full_join(Class_gauss, Class_modular), Class_simple),Class_simple_old)
+  Classes_table <- dplyr::full_join(dplyr::full_join(dplyr::full_join(dplyr::full_join(Class_gauss, Class_modular), Class_modular_native), Class_simple),Class_simple_old)
   
   #add to list
   analysis["Suppressions_by_Class"] <- list(Classes_table)
@@ -180,11 +201,11 @@ add_analysis <- function(filename,
 
 
 fix_empty <- function(result) {
-  check_names <- c("lo_gauss", "lo_modular", "lo_simpleheuristic", "lo_simpleheuristic_old", 
-    "primary_modular", "primary_simpleheuristic", "primary_simpleheuristic_old", 
-    "suppressed_gauss", "suppressed_modular", "suppressed_simpleheuristic", 
-    "suppressed_simpleheuristic_old", "unsafe_modular", "unsafe_simpleheuristic", 
-    "unsafe_simpleheuristic_old", "up_gauss", "up_modular", "up_simpleheuristic", 
+  check_names <- c("lo_gauss", "lo_modular", "lo_modular_native", "lo_simpleheuristic", "lo_simpleheuristic_old", 
+    "primary_modular", "primary_modular_native", "primary_simpleheuristic", "primary_simpleheuristic_old", 
+    "suppressed_gauss", "suppressed_modular", "suppressed_modular_native", "suppressed_simpleheuristic", 
+    "suppressed_simpleheuristic_old", "unsafe_modular", "unsafe_modular_native", "unsafe_simpleheuristic", 
+    "unsafe_simpleheuristic_old", "up_gauss", "up_modular", "up_modular_native", "up_simpleheuristic", 
     "up_simpleheuristic_old")
   for (nam in check_names) {
     if (is.null(result[[nam]])) {
@@ -195,7 +216,7 @@ fix_empty <- function(result) {
 }
 
 
-fun4 <- function(fun, ..., name = c("gauss", "modular", "simpleheuristic", "simpleheuristic_old")) {
+fun4 <- function(fun, ..., name = c("gauss", "modular", "modular_native", "simpleheuristic", "simpleheuristic_old")) {
   res <- rep(NA, length(name))
   names(res) <- name
   for (nam in name) {
@@ -262,7 +283,7 @@ n_0_upper_bound <- function(df, name) {
 add_names_and_NA <- function(
       x, 
       no_secondaries, 
-      name = c("gauss", "modular", "simpleheuristic", "simpleheuristic_old")) {
+      name = c("gauss", "modular", "modular_native", "simpleheuristic", "simpleheuristic_old")) {
   names(x) <- name
   x[no_secondaries %in% c(0, NA)] <- NA
   x

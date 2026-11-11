@@ -110,7 +110,12 @@ add_gauss("vignette_test")
 #### B. Running the MODULAR Algorithm (Tau-Argus via `rtauargus`)
 The **MODULAR** algorithm is executed through `add_modular()`, which wraps the standalone `TauArgus` software via `rtauargus`. To run this step, ensure that the path to your `TauArgus` executable is correctly configured in your R session options (e.g., `options(rtauargus.tauargus_exe = "path/to/TauArgus.exe")`).
 
-Alternatively, you can run other traditional SDC algorithms natively in R without external software by using `add_sdcTable()`, which interfaces with the `sdcTable` package:
+Alternatively, you can run other traditional SDC algorithms natively in R without external software by using `add_sdcTable()`, which interfaces with the `sdcTable` package, or `add_modular_native()`, which runs the MODULAR algorithm via `rtauargus.native` in-process without requiring a separate `TauArgus.exe` installation:
+
+```{r run-native}
+# Run MODULAR native secondary cell suppression
+add_modular_native("vignette_test")
+```
 
 ```r
 # Run sdcTable secondary cell suppression

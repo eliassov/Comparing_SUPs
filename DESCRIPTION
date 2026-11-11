@@ -21,6 +21,7 @@ Imports:
     rlang,
     dplyr,
     rtauargus,
+    rtauargus.native,
     tidyselect
 Suggests: 
     knitr,
