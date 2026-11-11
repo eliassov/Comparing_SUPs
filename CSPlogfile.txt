@@ -1,0 +1,14 @@
+END: SDC optimal solution = 2471 with 2 suppressions 
+ Total time = 0.00100183
+END: SDC optimal solution = 6797 with 2 suppressions 
+ Total time = 0.00234795
+END: SDC optimal solution = 25039 with 3 suppressions 
+ Total time = 0.000583172
+END: SDC optimal solution = 7995 with 7 suppressions 
+ Total time = 0.0023632
+END: SDC optimal solution = 25958 with 6 suppressions 
+ Total time = 0.00265884
+END: SDC optimal solution = 48589 with 6 suppressions 
+ Total time = 0.000581741
+END: SDC optimal solution = 5173 with 4 suppressions 
+ Total time = 0.00162268

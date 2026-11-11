@@ -60,13 +60,28 @@ add_modular_native("vignette_test")
 
 # 6. Compute Safety Intervals and Unsafe statuses (auto-detects 'modular_native' columns!)
 cat("\n--- [4/6] Computing safety intervals and unsafe flags ---\n")
-add_intervals("vignette_test")
-add_unsafe("vignette_test")
+tryCatch({
+  add_intervals("vignette_test")
+  add_unsafe("vignette_test")
+}, error = function(e) {
+  cat("\n[Warning] Interval calculation halted with an error:\n", e$message, "\n")
+  cat("This is a known issue due to redundant 'bogus' codes in the input hierarchies.\n")
+  cat("Please refer to the explanatory document 'analysis/bogus_codes_explanation.md' for details and solutions.\n\n")
+})
 
 # 7. Compile the five-way comparative utility & security analysis
 cat("\n--- [5/6] Compiling comparative SDC analysis ---\n")
-analysis_results <- add_analysis("vignette_test", output = "analysis")
+analysis_results <- tryCatch({
+  add_analysis("vignette_test", output = "analysis")
+}, error = function(e) {
+  cat("\n[Warning] Comparative analysis could not be completed:\n", e$message, "\n")
+  NULL
+})
 
 # 8. Inspect comparative results
-cat("\n--- [6/6] SDC Comparative Analysis Results Summary ---\n\n")
-print(analysis_results)
+if (!is.null(analysis_results)) {
+  cat("\n--- [6/6] SDC Comparative Analysis Results Summary ---\n\n")
+  print(analysis_results)
+} else {
+  cat("\n--- [6/6] SDC Comparative Analysis Skipped due to previous errors ---\n\n")
+}

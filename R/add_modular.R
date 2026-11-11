@@ -65,7 +65,7 @@ add_modular <- function(filename, path = "merged", output = NULL, split_tab = FA
   timing <- system.time({
     ex1 <- try(rtauargus::tab_rtauargus(
       tau$tab_modular_input,
-      dir_name = "argus_files",
+      dir_name = normalizePath("argus_files", mustWork = FALSE),
       files_name = "sy1",
       explanatory_vars = tau$vars,
       hrc = tau$hrc_vec,
