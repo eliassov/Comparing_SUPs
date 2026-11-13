@@ -24,6 +24,12 @@ if (FALSE) {  # Example
 add_modular <- function(filename, path = "merged", output = NULL, split_tab = FALSE,
                         add_HiTaS_log_time = TRUE) {
   
+  if (!requireNamespace("rtauargus", quietly = TRUE)) {
+    stop("Package 'rtauargus' is required for MODULAR cell suppression.", call. = FALSE)
+  }
+  
+  on.exit(clean_up(), add = TRUE)
+  
   all <- readRDS(file.path(path, paste0(filename, ".rds")))
   
   hrc_GAUSS <- all[["hierarchies"]]
@@ -42,11 +48,12 @@ add_modular <- function(filename, path = "merged", output = NULL, split_tab = FA
   hrc_names <- paste0("hier",seq_along(hrc_GAUSS),"_df")
   
   for(i in seq_along(hrc_GAUSS)){
-    write_argus_hrc(hrc_GAUSS[[i]], hrc_names[i])
+    write_argus_hrc(hrc_GAUSS[[i]], hrc_names[i], dir = "argus_files")
   }
 
   #Read all hierarchy files
   hierarchies <- list.files(
+    path = "argus_files",
     pattern = "^hier[0-9]+_df\\.hrc$",
     full.names = TRUE
   )
@@ -133,25 +140,28 @@ add_modular <- function(filename, path = "merged", output = NULL, split_tab = FA
 
 
 
-write_argus_hrc <- function(df, hrc_name){
+write_argus_hrc <- function(df, hrc_name, dir = "argus_files"){
+  dir.create(dir, showWarnings = FALSE)
+  filepath <- file.path(dir, paste0(hrc_name, ".hrc"))
   write.table(
     df,
-    file = paste0(hrc_name, ".hrc"),
+    file = filepath,
     sep = "",
     row.names = FALSE,
     col.names = FALSE,
     quote = FALSE
   )
   
-  lines <- readLines(paste0(hrc_name, ".hrc"))
+  lines <- readLines(filepath, warn = FALSE)
   lines <- sub("@@", "", lines)
-  writeLines(lines[2:length(lines)], paste0(hrc_name, ".hrc"))
+  writeLines(lines[2:length(lines)], filepath)
 }
 
 
 #clean working directory from previous run
-clean_up <- function(x){
+clean_up <- function(dir = "argus_files"){
   hierarchies <- list.files(
+    path = dir,
     pattern = "^hier[0-9]+_df\\.hrc$",
     full.names = TRUE
   )
@@ -160,11 +170,19 @@ clean_up <- function(x){
   }
   
   hierarchies_df <- list.files(
+    path = dir,
     pattern = "^hier[0-9]+_df",
     full.names = TRUE
   )
   if (length(hierarchies_df) > 0) {
     file.remove(hierarchies_df)
+  }
+  
+  root_logs <- c("HiTaS.log", "CSPlogfile.txt", "hierinfo.dat", "JJUit.dat", 
+                 "cspSCIP.sta", "cspSCIP.bra", "cspSCIP.heu")
+  existing_logs <- root_logs[file.exists(root_logs)]
+  if (length(existing_logs) > 0) {
+    file.remove(existing_logs)
   }
 }
 ###

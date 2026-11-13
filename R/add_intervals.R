@@ -92,6 +92,8 @@ add_intervals <- function(filename,
     set.seed(rnd_seed)
   }
   
+  on.exit(clean_up(), add = TRUE)
+  
   all <- readRDS(file.path(path, paste0(filename, ".rds")))
   
   hrc_GAUSS <- all[["hierarchies"]]

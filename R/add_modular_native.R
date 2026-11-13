@@ -22,6 +22,12 @@ if (FALSE) {  # Example
 add_modular_native <- function(filename, path = "merged", output = NULL, split_tab = FALSE,
                                add_HiTaS_log_time = TRUE) {
   
+  if (!requireNamespace("rtauargus.native", quietly = TRUE)) {
+    stop("Package 'rtauargus.native' is required for MODULAR native cell suppression.", call. = FALSE)
+  }
+  
+  on.exit(clean_up(), add = TRUE)
+  
   all <- readRDS(file.path(path, paste0(filename, ".rds")))
   
   hrc_GAUSS <- all[["hierarchies"]]
@@ -39,11 +45,12 @@ add_modular_native <- function(filename, path = "merged", output = NULL, split_t
   hrc_names <- paste0("hier",seq_along(hrc_GAUSS),"_df")
   
   for(i in seq_along(hrc_GAUSS)){
-    write_argus_hrc(hrc_GAUSS[[i]], hrc_names[i])
+    write_argus_hrc(hrc_GAUSS[[i]], hrc_names[i], dir = "argus_files")
   }
 
   #Read all hierarchy files
   hierarchies <- list.files(
+    path = "argus_files",
     pattern = "^hier[0-9]+_df\\.hrc$",
     full.names = TRUE
   )
