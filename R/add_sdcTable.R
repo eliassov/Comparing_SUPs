@@ -11,6 +11,9 @@ if (FALSE) {  # Example
   head(all$df_merged)
 }
 
+# To avoid problems when data.table not in Depends
+.datatable.aware <- TRUE 
+
 
 #' Add sdcTable Suppression to SDC Object
 #'
