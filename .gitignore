@@ -15,7 +15,6 @@
 
 # RStudio files
 .Rproj.user/
-*.Rproj
 
 # SDC / Tau-Argus temporary and output files
 argus_files/

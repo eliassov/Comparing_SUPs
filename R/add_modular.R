@@ -160,22 +160,9 @@ write_argus_hrc <- function(df, hrc_name, dir = "argus_files"){
 
 #clean working directory from previous run
 clean_up <- function(dir = "argus_files"){
-  hierarchies <- list.files(
-    path = dir,
-    pattern = "^hier[0-9]+_df\\.hrc$",
-    full.names = TRUE
-  )
-  if (length(hierarchies) > 0) {
-    file.remove(hierarchies)
-  }
-  
-  hierarchies_df <- list.files(
-    path = dir,
-    pattern = "^hier[0-9]+_df",
-    full.names = TRUE
-  )
-  if (length(hierarchies_df) > 0) {
-    file.remove(hierarchies_df)
+  # Delete the entire argus_files directory and its contents
+  if (dir.exists(dir)) {
+    unlink(dir, recursive = TRUE)
   }
   
   root_logs <- c("HiTaS.log", "CSPlogfile.txt", "hierinfo.dat", "JJUit.dat", 
