@@ -28,7 +28,7 @@ add_sdcTable(
 
 \item{use_external_primary}{Logical; if TRUE, uses existing primary suppressions from the precomputed "primary_gauss" column in `df_merged`. Default is TRUE.}
 
-\item{time_limit}{Numeric; time limit in seconds for the solver. Default is 3600.}
+\item{time_limit}{Numeric; time limit in seconds for the solver. Default is 3600. Use `Inf` to disable/avoid the time limit.}
 
 \item{fatal_error}{Logical; if TRUE, manually registers a fatal error status to avoid re-running failing configurations. Default is FALSE.}
 }

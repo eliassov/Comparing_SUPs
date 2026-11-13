@@ -20,4 +20,8 @@ Modifies the saved RDS file with unsafe suppression results, or returns a data f
 }
 \description{
 Identifies "unsafe" secondary suppressions (cells that can be exactly disclosed via linear dependencies) and adds unsafe indicators.
+Unsafe here means exact disclosure due to linear dependence calculated with Gauss. The corresponding intervals will have length 0, but interval calculations are not needed.
+}
+\note{
+Uses an internal hack to prevent all cells from being marked as forced (which GaussSuppression requires for unsafe calculations), by overriding the status of the cell with the largest response value.
 }

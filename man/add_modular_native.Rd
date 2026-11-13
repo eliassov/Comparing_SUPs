@@ -27,5 +27,6 @@ add_modular_native(
 Modifies the saved RDS file with MODULAR native suppression results, or returns a data frame depending on the `output` parameter.
 }
 \description{
-Runs the MODULAR (Tau-Argus) secondary cell suppression method using `rtauargus.native` (the native headless engine, which requires no external Tau-Argus installation) on a saved SDC object and adds the results.
+Runs the MODULAR (Tau-Argus) secondary cell suppression method using `rtauargus.native`
+(the native headless engine, which requires no external Tau-Argus installation) on a saved SDC object and adds the results.
 }

@@ -20,11 +20,11 @@ Imports:
     data.table,
     rlang,
     dplyr,
-    rtauargus,
-    rtauargus.native,
     tidyselect
 Suggests: 
     knitr,
+    rtauargus,
+    rtauargus.native,
     rmarkdown
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.1.1

@@ -34,4 +34,5 @@ Modifies the saved RDS file with safety interval results, or returns a data fram
 }
 \description{
 Computes safety intervals (lower/upper bounds) for suppressed cells and adds them to a saved SDC object.
+Intervals are computed for all methods that do not already have intervals, and the file is updated with new results and saved after each method.
 }
