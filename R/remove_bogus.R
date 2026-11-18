@@ -8,7 +8,15 @@ if (FALSE) {
   hiers2
 }
 
-# remove bogus codes from hierarchies
+#' Remove Bogus Codes from a Hierarchy
+#'
+#' Removes redundant (single-child / "bogus") codes from a hierarchy data frame
+#' and adjusts the level indicators (`@`) accordingly.
+#'
+#' @param hier A data frame representing a hierarchy (with level `@` strings in the first column and codes in the second).
+#'
+#' @return A data frame with bogus codes removed and level indicators adjusted.
+#' @export
 remove_bogus <- function(hier) {
   a <- SSBtools::AutoHierarchies(list(a = hier))[[1]]
   bogus <- a$mapsFrom[unique_once_l(a$mapsTo)]

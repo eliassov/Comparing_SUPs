@@ -201,15 +201,20 @@ add_analysis <- function(filename,
 
 
 fix_empty <- function(result) {
-  check_names <- c("lo_gauss", "lo_modular", "lo_modular_native", "lo_simpleheuristic", "lo_simpleheuristic_old", 
-    "primary_modular", "primary_modular_native", "primary_simpleheuristic", "primary_simpleheuristic_old", 
-    "suppressed_gauss", "suppressed_modular", "suppressed_modular_native", "suppressed_simpleheuristic", 
-    "suppressed_simpleheuristic_old", "unsafe_modular", "unsafe_modular_native", "unsafe_simpleheuristic", 
-    "unsafe_simpleheuristic_old", "up_gauss", "up_modular", "up_modular_native", "up_simpleheuristic", 
-    "up_simpleheuristic_old")
-  for (nam in check_names) {
+  na_names <- c("lo_gauss", "lo_modular", "lo_modular_native", "lo_simpleheuristic", "lo_simpleheuristic_old",
+                "up_gauss", "up_modular", "up_modular_native", "up_simpleheuristic", "up_simpleheuristic_old")
+  false_names <- c("primary_modular", "primary_modular_native", "primary_simpleheuristic", "primary_simpleheuristic_old", 
+                   "suppressed_gauss", "suppressed_modular", "suppressed_modular_native", "suppressed_simpleheuristic", 
+                   "suppressed_simpleheuristic_old", "unsafe_modular", "unsafe_modular_native", "unsafe_simpleheuristic", 
+                   "unsafe_simpleheuristic_old")
+  for (nam in na_names) {
     if (is.null(result[[nam]])) {
-      result[[nam]] <- 0L
+      result[[nam]] <- NA_real_
+    }
+  }
+  for (nam in false_names) {
+    if (is.null(result[[nam]])) {
+      result[[nam]] <- FALSE
     }
   }
   result

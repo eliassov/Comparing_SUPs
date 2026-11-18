@@ -28,20 +28,29 @@ A typical workflow with this package involves:
 ```R
 library(ComparingSUPs)
 
-# 1. Create hierarchical structure and microdata
-# (Ensure your hierarchies are defined; here we use an example list)
+# 1. Load pre-packaged hierarchies and remove redundant (bogus) codes
 my_hierarchies <- list(
-  region = sdcHierarchies::hier_create("TOTAL", c("North", "South")),
-  nace = sdcHierarchies::hier_create("TOTAL", c("Agriculture", "Manufacturing"))
+  var1 = remove_bogus(read_hier("minimal")),
+  var2 = remove_bogus(read_hier("table_header"))
 )
 
+# 2. Generate synthetic microdata (includes a Pareto Type II response variable)
 microdata <- create_microdata(my_hierarchies, n_ids = 500, n_unique = 50)
 
-# 2. Add randomly generated response variable based on Pareto distribution
-microdata_with_response <- add_response(microdata)
+# 3. Initialize the SDC pipeline and compute primary suppressions
+dir.create("merged", showWarnings = FALSE)
+initialize_gauss("example_run", microdata, my_hierarchies, overwrite = TRUE)
 
-# 3. Add suppression markers (e.g. MODULAR)
-suppressed_data <- add_modular(microdata_with_response, my_hierarchies)
+# 4. Run secondary cell suppression methods (e.g., GAUSS, sdcTable, MODULAR)
+add_gauss("example_run")
+add_sdcTable("example_run", method = "SIMPLEHEURISTIC")
+add_modular_native("example_run")
+
+# 5. Compute intervals, unsafe flags, and comparative analysis
+add_intervals("example_run")
+add_unsafe("example_run")
+analysis <- add_analysis("example_run", output = "analysis")
+print(analysis)
 ```
 
 ---

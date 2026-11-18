@@ -71,7 +71,7 @@ add_unsafe <- function(filename,
   method <- compute_names[1]
   
   cat("\n\n\n  #####################################################################\n")
-  cat("  #############   USAFE CALCULATIONS FOR   ################\n")
+  cat("  #############   UNSAFE CALCULATIONS FOR   ################\n")
   cat("  #############   ", method, "      ################\n")
   cat("  #####################################################################\n")
   if( length(compute_names) > 1 ) {

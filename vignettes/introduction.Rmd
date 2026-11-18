@@ -48,6 +48,7 @@ hiers <- list(
 
 # Generate mock transactional microdata based on these hierarchies
 # This generates n_ids observations and groups them into n_unique combinations
+# (create_microdata also generates the Pareto response variable automatically)
 microdata <- create_microdata(hiers, n_ids = 100, n_unique = 20, rnd_seed = 42)
 
 head(microdata)
@@ -55,12 +56,12 @@ head(microdata)
 
 ---
 
-### 2. Generating a Numeric Response Variable
+### 2. Customizing the Numeric Response Variable
 
-We append a Pareto Type II (Lomax) whole nonzero random response variable to the microdata using `add_response()`. This distribution represents highly skewed, realistic financial or economic data where a few large contributors dominate cells.
+`create_microdata()` automatically appends a Pareto Type II (Lomax) whole nonzero random response variable, or you can generate/customize one explicitly on any data frame using `add_response()`. This distribution represents highly skewed, realistic financial or economic data where a few large contributors dominate cells.
 
 ```{r add-response}
-# Add response variable
+# Add or update response variable
 microdata_with_response <- add_response(microdata, shape = 1.1)
 
 head(microdata_with_response)
@@ -113,8 +114,10 @@ The **MODULAR** algorithm is executed through `add_modular()`, which wraps the s
 Alternatively, you can run other traditional SDC algorithms natively in R without external software by using `add_sdcTable()`, which interfaces with the `sdcTable` package, or `add_modular_native()`, which runs the MODULAR algorithm via `rtauargus.native` in-process without requiring a separate `TauArgus.exe` installation:
 
 ```{r run-native}
-# Run MODULAR native secondary cell suppression
-add_modular_native("vignette_test")
+# Run MODULAR native secondary cell suppression (if installed)
+if (requireNamespace("rtauargus.native", quietly = TRUE)) {
+  add_modular_native("vignette_test")
+}
 ```
 
 ```r
@@ -156,6 +159,10 @@ print(analysis_results)
 ```
 
 ---
+
+```{r cleanup, include = FALSE}
+unlink("merged", recursive = TRUE)
+```
 
 ## Conclusion
 

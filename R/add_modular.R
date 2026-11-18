@@ -121,9 +121,13 @@ add_modular <- function(filename, path = "merged", output = NULL, split_tab = FA
       warning("No HiTaS_log_time: option HiTaS.log_path is empty")
     } else {
       file <- file.path(log_path, "HiTaS.log")
-      line <- grep("^[ \t]*Totaltime", readLines(file, warn = FALSE), value = TRUE)
-      line <- gsub("\\s+", " ", sub("^\\s*Totaltime:\\s*", "", line))
-      tab_gauss$HiTaS_log_time[i] <- line
+      if (file.exists(file)) {
+        line <- grep("^[ \t]*Totaltime", readLines(file, warn = FALSE), value = TRUE)
+        if (length(line) > 0) {
+          line <- gsub("\\s+", " ", sub("^\\s*Totaltime:\\s*", "", line))
+          tab_gauss$HiTaS_log_time[i] <- line
+        }
+      }
     }
   }
   
@@ -169,7 +173,7 @@ clean_up <- function(dir = "argus_files"){
                  "cspSCIP.sta", "cspSCIP.bra", "cspSCIP.heu")
   existing_logs <- root_logs[file.exists(root_logs)]
   if (length(existing_logs) > 0) {
-    file.remove(existing_logs)
+    suppressWarnings(file.remove(existing_logs))
   }
 }
 ###
