@@ -9,6 +9,9 @@
 #' @param path Character string specifying a custom directory path. Default is NULL (loads from package internal storage).
 #'
 #' @return A data frame representing the hierarchy.
+#' @examples
+#' h <- read_hier("minimal")
+#' head(h)
 #' @export
 read_hier <- function(hier_name, path = NULL) {
   if (is.null(path)) {
@@ -36,6 +39,8 @@ save_hier <- function(hier_name, path = "inst/extdata") {
 #' @param code_name Character string; base name for the generated codes. Default is "A".
 #'
 #' @return A data frame representing the simple hierarchy.
+#' @examples
+#' simple_hier(5, "A")
 #' @export
 simple_hier <- function(n = 2, code_name = "A") {
   hier <- data.frame(level = rep("@@", n + 1), 

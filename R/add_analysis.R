@@ -7,6 +7,20 @@
 #' @param output Character string specifying the output format, or NULL. Use "analysis" to return the analysis list object instead of saving.
 #'
 #' @return Modifies the saved RDS file with structured analysis metrics, or returns an analysis list depending on the `output` parameter.
+#' @examples
+#' \dontrun{
+#' hiers <- list(
+#'   var1 = remove_bogus(read_hier("minimal")),
+#'   var2 = remove_bogus(read_hier("table_header"))
+#' )
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test_ana", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_gauss("test_ana", path = tmp_dir)
+#' add_intervals("test_ana", path = tmp_dir)
+#' analysis <- add_analysis("test_ana", path = tmp_dir, output = "analysis")
+#' print(analysis)
+#' }
 #' @export
 add_analysis <- function(filename, 
                       path = "merged", 
@@ -28,19 +42,19 @@ add_analysis <- function(filename,
   #identify secondary suppressed cells for each method:
   #GAUSS
   secondary_gauss <- result |>
-    dplyr::filter(suppressed_gauss =="TRUE" & primary_gauss=="FALSE")
+    dplyr::filter(suppressed_gauss & !primary_gauss)
   #MODULAR
   secondary_modular <- result |>
-    dplyr::filter(suppressed_modular=="TRUE" & primary_modular=="FALSE")
+    dplyr::filter(suppressed_modular & !primary_modular)
   #MODULAR_NATIVE
   secondary_modular_native <- result |>
-    dplyr::filter(suppressed_modular_native=="TRUE" & primary_modular_native=="FALSE")
+    dplyr::filter(suppressed_modular_native & !primary_modular_native)
   #Simpleheuristic
   secondary_simple <- result |> 
-    dplyr::filter(suppressed_simpleheuristic=="TRUE" & primary_simpleheuristic=="FALSE")
+    dplyr::filter(suppressed_simpleheuristic & !primary_simpleheuristic)
   #Simpleheuristic_old
   secondary_simple_old <- result |> 
-    dplyr::filter(suppressed_simpleheuristic_old=="TRUE" & primary_simpleheuristic_old=="FALSE")
+    dplyr::filter(suppressed_simpleheuristic_old & !primary_simpleheuristic_old)
   #Number of secondaries per method
   secondaries_gauss <- nrow(secondary_gauss)
   secondaries_modular <- nrow(secondary_modular)
@@ -165,23 +179,23 @@ add_analysis <- function(filename,
   #suppressions by "Class" to evaluate hierarchical damage
   #For GAUSS
   Class_gauss <- result |> 
-    dplyr::filter(primary_gauss==F & suppressed_gauss == T) |> 
+    dplyr::filter(!primary_gauss & suppressed_gauss) |> 
     dplyr::count(HiTaS_Class, name = "n_GAUSS")
   #For Modular
   Class_modular <- result|> 
-    dplyr::filter(primary_modular ==F & suppressed_modular ==T) |> 
+    dplyr::filter(!primary_modular & suppressed_modular) |> 
     dplyr::count(HiTaS_Class, name = "n_modular")
   #For Modular Native
   Class_modular_native <- result|> 
-    dplyr::filter(primary_modular_native ==F & suppressed_modular_native ==T) |> 
+    dplyr::filter(!primary_modular_native & suppressed_modular_native) |> 
     dplyr::count(HiTaS_Class, name = "n_modular_native")
   #For Simple
   Class_simple <- result|> 
-    dplyr::filter(primary_simpleheuristic ==F & suppressed_simpleheuristic ==T) |> 
+    dplyr::filter(!primary_simpleheuristic & suppressed_simpleheuristic) |> 
     dplyr::count(HiTaS_Class, name = "n_simple")
   #For Simple Old
   Class_simple_old <- result|> 
-    dplyr::filter(primary_simpleheuristic_old ==F & suppressed_simpleheuristic_old ==T) |> 
+    dplyr::filter(!primary_simpleheuristic_old & suppressed_simpleheuristic_old) |> 
     dplyr::count(HiTaS_Class, name = "n_simple_old")
   #for comparing the two
   Classes_table <- dplyr::full_join(dplyr::full_join(dplyr::full_join(dplyr::full_join(Class_gauss, Class_modular), Class_modular_native), Class_simple),Class_simple_old)

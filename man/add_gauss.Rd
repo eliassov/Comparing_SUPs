@@ -20,3 +20,12 @@ Modifies the saved RDS file with GAUSS suppression results, or returns a data fr
 Runs secondary cell suppression using the GAUSS method (via the `GaussSuppression` package)
 on a saved SDC object and adds the results.
 }
+\examples{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test_gauss", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_gauss("test_gauss", path = tmp_dir)
+all <- readRDS(file.path(tmp_dir, "test_gauss.rds"))
+head(all$df_merged)
+}

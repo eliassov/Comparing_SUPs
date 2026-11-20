@@ -35,3 +35,11 @@ Modifies or creates the RDS file with initial primary suppressions, or returns t
 \description{
 Initializes the SDC object and computes the primary suppressions using the GAUSS method (without secondary suppressions).
 }
+\examples{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test_init", df, hiers, path = tmp_dir, overwrite = TRUE)
+all <- readRDS(file.path(tmp_dir, "test_init.rds"))
+head(all$df_merged)
+}

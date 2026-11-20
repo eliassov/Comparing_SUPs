@@ -1,11 +1,3 @@
-if (FALSE) {  # Example 
-  hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  100, n_unique = 20)
-  initialize_gauss("test", df, hiers)
-  add_modular_native("test")
-}
-
-
 #' Add Modular Native Suppression to SDC Object
 #'
 #' Runs the MODULAR (Tau-Argus) secondary cell suppression method using `rtauargus.native`
@@ -18,6 +10,14 @@ if (FALSE) {  # Example
 #' @param add_HiTaS_log_time Logical; whether to parse and include the Tau-Argus log-reported time. Default is TRUE.
 #'
 #' @return Modifies the saved RDS file with MODULAR native suppression results, or returns a data frame depending on the `output` parameter.
+#' @examples
+#' \dontrun{
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_modular_native("test", path = tmp_dir)
+#' }
 #' @export
 add_modular_native <- function(filename, path = "merged", output = NULL, split_tab = FALSE,
                                add_HiTaS_log_time = TRUE) {
@@ -82,12 +82,7 @@ add_modular_native <- function(filename, path = "merged", output = NULL, split_t
   if (ok) { 
     out_tau <- ex1 |> 
       dplyr::select(tidyselect::starts_with("var"),response,Status) |> 
-      dplyr::mutate(Status = dplyr::recode(Status,
-                                           "V" = 2,
-                                           "A" = 9,
-                                           "B" = 9,
-                                           "C" = 9,
-                                           "D" = 12))
+      dplyr::mutate(Status = unname(c("V" = 2, "A" = 9, "B" = 9, "C" = 9, "D" = 12)[Status]))
   } else {
     out_tau <- ex1
   }

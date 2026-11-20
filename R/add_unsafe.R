@@ -1,30 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  
-  
-  hiers <- list(var1 = read_hier("region_mid")[1:85, ],
-                var2 = read_hier("nace_2")[1:35, ],
-                var3 = simple_hier(5, "A"))
-  prod(sapply(prime_positions(hiers), length))
-  hiers <- lapply(hiers, remove_bogus)
-  df <- create_microdata(hiers, n_ids =  30000, n_unique = 9000)
-  info_microdata(df, hiers)
-  all <- check_primary(df, hiers)
-  
-  path <- "merged"
-  dir.create(path)  # create if the folder does not exist
-  filename <- "test3" 
-  initialize_gauss(filename , df, hiers, path = path, overwrite = TRUE)
-  add_sdcTable(filename, method = "SIMPLEHEURISTIC_OLD", path = path)
-  add_unsafe(filename, path = path)  # unsafe for all methods not already computed
-  sum(readRDS(file.path(path, paste0(filename, ".rds")))$df_merged$unsafe_simpleheuristic_old)
-  
-   
-}
-
-
 #' Add Unsafe Secondary Suppressions to SDC Object
 #'
 #' Identifies "unsafe" secondary suppressions (cells that can be exactly disclosed via linear dependencies) and adds unsafe indicators.
@@ -38,6 +14,18 @@ if (FALSE) {  # Example
 #' @param multiple Logical; if TRUE, computes unsafe indicators for all suppression methods that lack them. If FALSE, computes for only a single method. Default is TRUE.
 #'
 #' @return Modifies the saved RDS file with unsafe suppression results, or returns a data frame depending on the `output` parameter.
+#' @examples
+#' \dontrun{
+#' hiers <- list(
+#'   var1 = remove_bogus(read_hier("minimal")),
+#'   var2 = remove_bogus(read_hier("table_header"))
+#' )
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test_unsafe", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_sdcTable("test_unsafe", method = "SIMPLEHEURISTIC", path = tmp_dir)
+#' add_unsafe("test_unsafe", path = tmp_dir)
+#' }
 #' @export
 add_unsafe <- function(filename, 
                           path = "merged", 

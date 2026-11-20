@@ -1,63 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  loc_tauargus <- "C:/TauArgus/TauArgus/TauArgus.exe"
-  options(rtauargus.tauargus_exe = loc_tauargus)
-  HiTaS_log_path <- "C:/Users/oyl/AppData/Local/Temp"
-  options(HiTaS.log_path  =  HiTaS_log_path)
-  
-  
-  # All files in the R folder are sourced
-  dir_R <- dir("R", full.names = TRUE)
-  for(i in seq_along(dir_R)) {
-    source(dir_R[i])  
-  }
-  
-  hiers <- list(var1 = read_hier("nace_2"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  10000, n_unique = 1000)
-  info_microdata(df, hiers)
-  
-  
-  path <- "merged"
-  dir.create(path)  # create if the folder does not exist
-  filename <- "test2" 
-  initialize_gauss(filename , df, hiers, path = path, overwrite = TRUE)
-  add_gauss(filename, path = path)
-  add_sdcTable(filename, method = "SIMPLEHEURISTIC_OLD", path = path)
-  add_sdcTable(filename, path = path)
-  add_modular_native(filename, path = path)
-  add_modular(filename, path = path)
-  add_intervals(filename, multiple = FALSE, path = path)   # only intervals for one method 
-  head(readRDS(file.path(path, paste0(filename, ".rds")))$df_merged, 10)
-  add_intervals(filename, path = path)  # intervals for all methods not already computed
-  head(readRDS(file.path(path, paste0(filename, ".rds")))$df_merged, 10)
-  
-  
-  
-  # intervals calculated step by step
-  initialize_gauss(filename , df, hiers, path = path, overwrite = TRUE)
-  add_gauss(filename, path = path)
-  add_sdcTable(filename, method = "SIMPLEHEURISTIC_OLD", path = path)
-  add_sdcTable(filename, path = path)
-  add_modular_native(filename, path = path)
-  add_modular(filename, path = path)
-  add_intervals(filename, path = path, multiple = FALSE, sample_size = 2) 
-  add_intervals(filename, path = path, multiple = FALSE, sample_size = 5)
-  add_intervals(filename, path = path, sample_size = 10)
-  add_intervals(filename, path = path, sample_size = 100)
-  df_merged <- readRDS(file.path(path, paste0(filename, ".rds")))$df_merged
-  head(df_merged, 16)
-  sum(!is.na(df_merged$lo_gauss))
-  sum(!is.na(df_merged$lo_modular))
-  add_intervals(filename, path = path, multiple = FALSE)
-  df_merged <- readRDS(file.path(path, paste0(filename, ".rds")))$df_merged
-  head(df_merged, 16)
-  sum(!is.na(df_merged$lo_gauss))
-  sum(!is.na(df_merged$lo_modular))  # still 100 since multiple = FALSE above 
-}
-
-
 #' Add Safety Intervals to SDC Object
 #'
 #' Computes safety intervals (lower/upper bounds) for suppressed cells and adds them to a saved SDC object.
@@ -73,6 +16,18 @@ if (FALSE) {  # Example
 #' @param n_workers Integer; number of parallel workers/cores to use for calculations. Default is 1.
 #'
 #' @return Modifies the saved RDS file with safety interval results, or returns a data frame depending on the `output` parameter.
+#' @examples
+#' \dontrun{
+#' hiers <- list(
+#'   var1 = remove_bogus(read_hier("minimal")),
+#'   var2 = remove_bogus(read_hier("table_header"))
+#' )
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test_int", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_gauss("test_int", path = tmp_dir)
+#' add_intervals("test_int", path = tmp_dir)
+#' }
 #' @export
 add_intervals <- function(filename, 
                           path = "merged", 

@@ -29,3 +29,9 @@ A list containing the processed SDC list object with primary suppression results
 \description{
 Runs primary suppression on microdata and compares/adds results from info_output.
 }
+\examples{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+res <- check_primary(df, hiers, do_check_sdcTable = TRUE)
+res$ok_primary
+}

@@ -6,21 +6,6 @@
 #
 
 
-if (FALSE) {  # Example 
-  a <- create_microdata_from_filename("oyl_26d")
-  head(a)
-  
-  f <- paste0("oyl_", 1:28)
-  ff <- rep(f, each = 4)
-  filenames <- c(paste0(ff, c("a", "b", "c", "d")))
-  filenames
-  
-  b <- create_microdata_from_filename(filenames[58])
-  tail(b)
-}
-
-
-
 #' Recreate Microdata from Benchmark Case Filename
 #'
 #' Recreates the exact simulated microdata for a specific benchmark test case
@@ -31,6 +16,11 @@ if (FALSE) {  # Example
 #'   case identifier (e.g., "oyl_26d").
 #'
 #' @return A data frame containing the generated mock microdata for the specified benchmark case.
+#' @examples
+#' \dontrun{
+#' a <- create_microdata_from_filename("oyl_26d")
+#' head(a)
+#' }
 #' @export
 create_microdata_from_filename <- function(filename) {
   if (!is.character(filename) || length(filename) != 1L || is.na(filename)) {

@@ -21,3 +21,8 @@ Prints summary statistics. If `return_frame` is TRUE, returns a data frame with 
 \description{
 Computes and prints key metrics of the generated microdata, such as empty inner cells, singleton cells, and unsafe cells.
 }
+\examples{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 20, n_unique = 5)
+info_microdata(df, hiers)
+}

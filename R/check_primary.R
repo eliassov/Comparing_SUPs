@@ -1,26 +1,5 @@
 
   
-if (FALSE) {  # Example 
-  hiersA <- list(var1 = read_hier("nace_2"), var2 = read_hier("table_header"))
-  dfA <- create_microdata(hiersA, n_ids = 10000, n_unique = 1000)
-  
-  allA <- check_primary(dfA, hiersA)
-  names(allA)
-  allA$info
-  
-  
-  hiersB <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-  dfB <- create_microdata(hiersB, n_ids = 100, n_unique = 20)
-  
-  allB <- check_primary(dfB, hiersB, do_check_sdcTable = TRUE)
-  names(allB)
-  allB$ok_primary
-  allB$info
-  
-  check_primary(dfA, hiersA, do_check_sdcTable = TRUE)$ok_primary
-}
-
-
 #' Run and Check Primary Suppression
 #'
 #' Runs primary suppression on microdata and compares/adds results from info_output.
@@ -32,6 +11,11 @@ if (FALSE) {  # Example
 #' @param do_check_sdcTable Logical; if TRUE, cross-checks results against `sdcTable::primarySuppression`. Default is FALSE.
 #'
 #' @return A list containing the processed SDC list object with primary suppression results, and optionally sdcTable verification metrics.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' res <- check_primary(df, hiers, do_check_sdcTable = TRUE)
+#' res$ok_primary
 #' @export
 check_primary <- function(df_microdata, hierarchies, 
                           pvalue = 5, 
@@ -82,6 +66,12 @@ info_output <- function(df_merged, hierarchies, as_char = TRUE) {
 #' @param pvalue Numeric; threshold for identifying unsafe cells. Default is 5.
 #'
 #' @return A list with the output data frame from sdcTable, a logical vector of its primary suppressions, and an equality check result.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' init <- initialize_gauss("nofile", df, hiers, output = "all")
+#' chk <- check_sdcTable(init$df_merged, init$df_microdata, init$hierarchies)
+#' chk$ok_primary
 #' @export
 check_sdcTable <- function(df_merged, df_microdata, hierarchies, pvalue = 5) {
   

@@ -21,3 +21,10 @@ A list with the output data frame from sdcTable, a logical vector of its primary
 \description{
 Runs primary suppression using `sdcTable::primarySuppression` to verify that the results match the package's precomputed primary suppressions.
 }
+\examples{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+init <- initialize_gauss("nofile", df, hiers, output = "all")
+chk <- check_sdcTable(init$df_merged, init$df_microdata, init$hierarchies)
+chk$ok_primary
+}

@@ -17,3 +17,7 @@ A data frame representing the hierarchy.
 \description{
 Reads a pre-packaged hierarchy RDS file from the package's internal data directory.
 }
+\examples{
+h <- read_hier("minimal")
+head(h)
+}

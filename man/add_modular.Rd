@@ -29,3 +29,12 @@ Modifies the saved RDS file with MODULAR suppression results, or returns a data 
 \description{
 Runs the MODULAR (Tau-Argus) secondary cell suppression method on a saved SDC object and adds the results.
 }
+\examples{
+\dontrun{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_modular("test", path = tmp_dir)
+}
+}

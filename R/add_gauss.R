@@ -1,17 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  100, n_unique = 20)
-  initialize_gauss("test", df, hiers, overwrite = TRUE)
-  all <- readRDS("merged/test.rds")
-  head(all$df_merged)
-  add_gauss("test")
-  all <- readRDS("merged/test.rds")
-  head(all$df_merged)
-}
-
 #' Add GAUSS Suppression to SDC Object
 #'
 #' Runs secondary cell suppression using the GAUSS method (via the `GaussSuppression` package)
@@ -22,6 +11,14 @@ if (FALSE) {  # Example
 #' @param output Character string specifying the output format, or NULL. Use "df_merged" to return the merged data frame instead of saving.
 #'
 #' @return Modifies the saved RDS file with GAUSS suppression results, or returns a data frame depending on the `output` parameter.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test_gauss", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_gauss("test_gauss", path = tmp_dir)
+#' all <- readRDS(file.path(tmp_dir, "test_gauss.rds"))
+#' head(all$df_merged)
 #' @export
 add_gauss <- function(filename, 
                       path = "merged", 

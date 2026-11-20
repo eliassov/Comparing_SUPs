@@ -1,13 +1,5 @@
 
 
-if (FALSE) {
-  hiers1 <- list(var1 = read_hier("minimal"), 
-                 var2 = read_hier("region_mid")[1:20, ])
-  hiers1
-  hiers2 <- lapply(hiers1, remove_bogus)
-  hiers2
-}
-
 #' Remove Bogus Codes from a Hierarchy
 #'
 #' Removes redundant (single-child / "bogus") codes from a hierarchy data frame
@@ -16,6 +8,13 @@ if (FALSE) {
 #' @param hier A data frame representing a hierarchy (with level `@` strings in the first column and codes in the second).
 #'
 #' @return A data frame with bogus codes removed and level indicators adjusted.
+#' @examples
+#' hiers1 <- list(
+#'   var1 = read_hier("minimal"),
+#'   var2 = read_hier("region_mid")[1:20, ]
+#' )
+#' hiers2 <- lapply(hiers1, remove_bogus)
+#' head(hiers2$var2)
 #' @export
 remove_bogus <- function(hier) {
   a <- SSBtools::AutoHierarchies(list(a = hier))[[1]]

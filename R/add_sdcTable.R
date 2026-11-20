@@ -1,16 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  hiers <- list(var1 = read_hier("nace_2"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  10000, n_unique = 1000)
-  initialize_gauss("test1", df, hiers)
-  add_sdcTable("test1")
-  add_sdcTable("test1", method = "SIMPLEHEURISTIC_OLD")
-  all <- readRDS("merged/test1.rds")
-  head(all$df_merged)
-}
-
 # To avoid problems when data.table not in Depends
 .datatable.aware <- TRUE 
 
@@ -29,6 +19,16 @@ if (FALSE) {  # Example
 #' @param fatal_error Logical; if TRUE, manually registers a fatal error status to avoid re-running failing configurations. Default is FALSE.
 #'
 #' @return Modifies the saved RDS file with sdcTable suppression results, or returns a specific object depending on the `output` parameter.
+#' @examples
+#' \dontrun{
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test1", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' add_sdcTable("test1", path = tmp_dir)
+#' all <- readRDS(file.path(tmp_dir, "test1.rds"))
+#' head(all$df_merged)
+#' }
 #' @export
 add_sdcTable <- function(filename, path = "merged", output = NULL, 
                          method = "SIMPLEHEURISTIC", pvalue = 5,
@@ -117,6 +117,8 @@ add_sdcTable <- function(filename, path = "merged", output = NULL,
           on.exit(setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE), add = TRUE)
           sdcTable::protectTable(prob.microDat, method = sdcTable_method)
         }, silent = TRUE)
+        options(warn = old_warn)
+        setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE)
       })  
     } else {
       timing <- system.time({
@@ -149,10 +151,7 @@ add_sdcTable <- function(filename, path = "merged", output = NULL,
     result_simpleheuristic <- as.data.frame(result_simpleheuristic )
     
     out_simple <- result_simpleheuristic |> 
-      dplyr::mutate(Status = dplyr::recode(sdcStatus,
-                             "s" = 2,
-                             "x" = 12,
-                             "u" = 9)) |> 
+      dplyr::mutate(Status = unname(c("s" = 2, "x" = 12, "u" = 9)[sdcStatus])) |> 
       dplyr::select(-sdcStatus)
   
       

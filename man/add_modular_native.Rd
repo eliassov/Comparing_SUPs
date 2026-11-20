@@ -30,3 +30,12 @@ Modifies the saved RDS file with MODULAR native suppression results, or returns 
 Runs the MODULAR (Tau-Argus) secondary cell suppression method using `rtauargus.native`
 (the native headless engine, which requires no external Tau-Argus installation) on a saved SDC object and adds the results.
 }
+\examples{
+\dontrun{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_modular_native("test", path = tmp_dir)
+}
+}

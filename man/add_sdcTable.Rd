@@ -38,3 +38,14 @@ Modifies the saved RDS file with sdcTable suppression results, or returns a spec
 \description{
 Runs secondary cell suppression using the `sdcTable` package on a saved SDC object and adds the results.
 }
+\examples{
+\dontrun{
+hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test1", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_sdcTable("test1", path = tmp_dir)
+all <- readRDS(file.path(tmp_dir, "test1.rds"))
+head(all$df_merged)
+}
+}

@@ -64,7 +64,9 @@ Here are the main functions provided by the package:
 | `create_microdata()` | Synthesizes realistic tabular microdata from specified hierarchies. |
 | `add_response()` | Generates and appends Pareto Type II (Lomax) whole nonzero random values as a response variable. |
 | `add_gauss()` | Applies the GAUSS cell suppression method using `GaussSuppression`. |
-| `add_modular()` | Applies the MODULAR / HiTaS secondary cell suppression algorithm using `sdcTable`. |
+| `add_modular()` | Applies the MODULAR / HiTaS secondary cell suppression algorithm using `rtauargus` (Tau-Argus). |
+| `add_modular_native()` | Applies the MODULAR / HiTaS secondary cell suppression algorithm natively using `rtauargus.native`. |
+| `add_sdcTable()` | Applies secondary cell suppression algorithms (e.g., `SIMPLEHEURISTIC`) using `sdcTable`. |
 | `add_intervals()` | Computes interval bounds for suppressed values to assess how tightly they can be estimated. |
 | `add_unsafe()` | Evaluates whether primary suppressed cells can be precisely reconstructed. |
 | `add_analysis()` | Compiles comparative statistics across multiple suppression runs (data loss, runtime, protection level). |

@@ -25,3 +25,16 @@ Unsafe here means exact disclosure due to linear dependence calculated with Gaus
 \note{
 Uses an internal hack to prevent all cells from being marked as forced (which GaussSuppression requires for unsafe calculations), by overriding the status of the cell with the largest response value.
 }
+\examples{
+\dontrun{
+hiers <- list(
+  var1 = remove_bogus(read_hier("minimal")),
+  var2 = remove_bogus(read_hier("table_header"))
+)
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test_unsafe", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_sdcTable("test_unsafe", method = "SIMPLEHEURISTIC", path = tmp_dir)
+add_unsafe("test_unsafe", path = tmp_dir)
+}
+}

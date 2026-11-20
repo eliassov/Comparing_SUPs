@@ -11,7 +11,8 @@ Description: An R package to practice generating microdata and hierarchies
     and comparing different secondary cell suppression methods (e.g., GAUSS, MODULAR).
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+Depends:
+    R (>= 4.1.0)
 Imports:
     SSBtools,
     sdcHierarchies,
@@ -26,6 +27,8 @@ Suggests:
     knitr,
     rtauargus,
     rtauargus.native,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1

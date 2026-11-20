@@ -24,8 +24,8 @@ library(ComparingSUPs)
 
 Specifically, this package allows you to compare:
 - **GAUSS** secondary cell suppression (via the `GaussSuppression` package)
-- **MODULAR/HiTaS** secondary cell suppression (via the standalone Tau-Argus executable via `rtauargus`, or natively in R via `sdcTable`)
-- Simple heuristics and other customized cell suppression schemes
+- **MODULAR/HiTaS** secondary cell suppression (via the standalone Tau-Argus executable via `rtauargus`, or natively in R via `rtauargus.native`)
+- **Simple heuristics** and other secondary cell suppression schemes (via the `sdcTable` package)
 
 This vignette walks you through the entire end-to-end workflow: from generating synthetic hierarchies and microdata, through executing cell suppressions, to conducting a comparative analysis of data utility, protection, and runtime.
 

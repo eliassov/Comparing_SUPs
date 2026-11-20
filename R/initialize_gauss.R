@@ -1,15 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  100, n_unique = 20)
-  initialize_gauss("test", df, hiers, overwrite = TRUE)
-  all <- readRDS("merged/test.rds")
-  head(all$df_merged)
-}
-
-
 #' Initialize GAUSS Suppression Object
 #'
 #' Initializes the SDC object and computes the primary suppressions using the GAUSS method (without secondary suppressions).
@@ -23,6 +14,13 @@ if (FALSE) {  # Example
 #' @param output Character string specifying the output format, or NULL. Use "all" to return the complete SDC list, or "df_merged" to return the merged data frame.
 #'
 #' @return Modifies or creates the RDS file with initial primary suppressions, or returns the specified object depending on the `output` parameter.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+#' tmp_dir <- tempdir()
+#' initialize_gauss("test_init", df, hiers, path = tmp_dir, overwrite = TRUE)
+#' all <- readRDS(file.path(tmp_dir, "test_init.rds"))
+#' head(all$df_merged)
 #' @export
 initialize_gauss <- function(filename, df_microdata, hierarchies, path = "merged", 
                              overwrite = FALSE,  

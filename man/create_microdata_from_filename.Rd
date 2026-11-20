@@ -18,3 +18,9 @@ Recreates the exact simulated microdata for a specific benchmark test case
 (e.g., "oyl_1a", "oyl_26d") by looking up its original configuration settings
 and structural hierarchies.
 }
+\examples{
+\dontrun{
+a <- create_microdata_from_filename("oyl_26d")
+head(a)
+}
+}

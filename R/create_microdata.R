@@ -1,16 +1,6 @@
 
 
 
-if (FALSE) {  # Example 
-  hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-  df <- create_microdata(hiers, n_ids =  20, n_unique = 5)
-  df
-  cbind(SSBtools::MakeFreq(df[1:2]),
-        ppercent = inner_ppercent(df))
-  info_microdata(df, hiers)
-}
-
-
 #' Generate Mock Microdata
 #'
 #' Generates mock microdata representing individual/transactional records with hierarchical dimensions and responses.
@@ -25,6 +15,10 @@ if (FALSE) {  # Example
 #' @param sample_seed Random seed for sampling the combinations. Default is 123.
 #'
 #' @return A data frame containing the generated mock microdata.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 20, n_unique = 5)
+#' head(df)
 #' @export
 create_microdata <- function(hiers, n_ids =  1000, n_unique = n_ids/10, 
                              shape = 1.1, 
@@ -88,6 +82,10 @@ inner_ppercent <- function(df_microdata, include_freq = FALSE) {
 #' @param pvalue The threshold for identifying unsafe cells based on the p-percent rule. Default is 5.
 #'
 #' @return Prints summary statistics. If `return_frame` is TRUE, returns a data frame with frequencies and p-percent values.
+#' @examples
+#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' df <- create_microdata(hiers, n_ids = 20, n_unique = 5)
+#' info_microdata(df, hiers)
 #' @export
 info_microdata <- function(df_microdata, hierarchies, return_frame = FALSE, 
                            pvalue = 5) {

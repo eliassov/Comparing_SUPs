@@ -7,12 +7,20 @@
 remove_bogus(hier)
 }
 \arguments{
-\item{hier}{A data frame representing a hierarchy (with level \code{@} strings in the first column and codes in the second).}
+\item{hier}{A data frame representing a hierarchy (with level `@` strings in the first column and codes in the second).}
 }
 \value{
 A data frame with bogus codes removed and level indicators adjusted.
 }
 \description{
 Removes redundant (single-child / "bogus") codes from a hierarchy data frame
-and adjusts the level indicators (\code{@}) accordingly.
+and adjusts the level indicators (`@`) accordingly.
+}
+\examples{
+hiers1 <- list(
+  var1 = read_hier("minimal"),
+  var2 = read_hier("region_mid")[1:20, ]
+)
+hiers2 <- lapply(hiers1, remove_bogus)
+head(hiers2$var2)
 }

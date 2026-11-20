@@ -36,3 +36,16 @@ Modifies the saved RDS file with safety interval results, or returns a data fram
 Computes safety intervals (lower/upper bounds) for suppressed cells and adds them to a saved SDC object.
 Intervals are computed for all methods that do not already have intervals, and the file is updated with new results and saved after each method.
 }
+\examples{
+\dontrun{
+hiers <- list(
+  var1 = remove_bogus(read_hier("minimal")),
+  var2 = remove_bogus(read_hier("table_header"))
+)
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test_int", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_gauss("test_int", path = tmp_dir)
+add_intervals("test_int", path = tmp_dir)
+}
+}

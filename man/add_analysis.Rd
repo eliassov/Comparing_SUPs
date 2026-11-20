@@ -19,3 +19,18 @@ Modifies the saved RDS file with structured analysis metrics, or returns an anal
 \description{
 Compiles performance, risk, and utility comparative analysis metrics across the implemented suppression methods.
 }
+\examples{
+\dontrun{
+hiers <- list(
+  var1 = remove_bogus(read_hier("minimal")),
+  var2 = remove_bogus(read_hier("table_header"))
+)
+df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+tmp_dir <- tempdir()
+initialize_gauss("test_ana", df, hiers, path = tmp_dir, overwrite = TRUE)
+add_gauss("test_ana", path = tmp_dir)
+add_intervals("test_ana", path = tmp_dir)
+analysis <- add_analysis("test_ana", path = tmp_dir, output = "analysis")
+print(analysis)
+}
+}

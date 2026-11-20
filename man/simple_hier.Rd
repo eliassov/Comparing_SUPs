@@ -17,3 +17,6 @@ A data frame representing the simple hierarchy.
 \description{
 Generates a simple hierarchy structure with a "TOTAL" root node and `n` children codes.
 }
+\examples{
+simple_hier(5, "A")
+}
