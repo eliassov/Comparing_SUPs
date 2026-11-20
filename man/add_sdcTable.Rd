@@ -40,11 +40,12 @@ Runs secondary cell suppression using the `sdcTable` package on a saved SDC obje
 }
 \examples{
 \dontrun{
-hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
+hiers <- list(var1 = read_hier("nace_2"), var2 = read_hier("table_header"))
+df <- create_microdata(hiers, n_ids = 10000, n_unique = 1000)
 tmp_dir <- tempdir()
 initialize_gauss("test1", df, hiers, path = tmp_dir, overwrite = TRUE)
 add_sdcTable("test1", path = tmp_dir)
+add_sdcTable("test1", method = "SIMPLEHEURISTIC_OLD", path = tmp_dir)
 all <- readRDS(file.path(tmp_dir, "test1.rds"))
 head(all$df_merged)
 }

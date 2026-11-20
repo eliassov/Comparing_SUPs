@@ -41,5 +41,7 @@ Generates mock microdata representing individual/transactional records with hier
 \examples{
 hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
 df <- create_microdata(hiers, n_ids = 20, n_unique = 5)
-head(df)
+df
+info_microdata(df, hiers, return_frame = TRUE)
+info_microdata(df, hiers)
 }

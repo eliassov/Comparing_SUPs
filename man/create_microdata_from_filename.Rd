@@ -22,5 +22,13 @@ and structural hierarchies.
 \dontrun{
 a <- create_microdata_from_filename("oyl_26d")
 head(a)
+
+f <- paste0("oyl_", 1:28)
+ff <- rep(f, each = 4)
+filenames <- c(paste0(ff, c("a", "b", "c", "d")))
+filenames
+
+b <- create_microdata_from_filename(filenames[58])
+tail(b)
 }
 }

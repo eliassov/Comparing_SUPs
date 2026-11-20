@@ -12,10 +12,23 @@
 #'
 #' @return A list containing the processed SDC list object with primary suppression results, and optionally sdcTable verification metrics.
 #' @examples
-#' hiers <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
-#' df <- create_microdata(hiers, n_ids = 100, n_unique = 20)
-#' res <- check_primary(df, hiers, do_check_sdcTable = TRUE)
-#' res$ok_primary
+#' hiersB <- list(var1 = read_hier("minimal"), var2 = read_hier("table_header"))
+#' dfB <- create_microdata(hiersB, n_ids = 100, n_unique = 20)
+#'
+#' allB <- check_primary(dfB, hiersB, do_check_sdcTable = TRUE)
+#' names(allB)
+#' allB$ok_primary
+#' allB$info
+#'
+#' \dontrun{
+#' hiersA <- list(var1 = read_hier("nace_2"), var2 = read_hier("table_header"))
+#' dfA <- create_microdata(hiersA, n_ids = 10000, n_unique = 1000)
+#'
+#' allA <- check_primary(dfA, hiersA)
+#' names(allA)
+#' allA$info
+#' check_primary(dfA, hiersA, do_check_sdcTable = TRUE)$ok_primary
+#' }
 #' @export
 check_primary <- function(df_microdata, hierarchies, 
                           pvalue = 5, 

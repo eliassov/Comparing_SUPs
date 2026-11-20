@@ -13,8 +13,9 @@
 #'   var1 = read_hier("minimal"),
 #'   var2 = read_hier("region_mid")[1:20, ]
 #' )
+#' hiers1
 #' hiers2 <- lapply(hiers1, remove_bogus)
-#' head(hiers2$var2)
+#' hiers2
 #' @export
 remove_bogus <- function(hier) {
   a <- SSBtools::AutoHierarchies(list(a = hier))[[1]]
